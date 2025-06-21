@@ -1,0 +1,13 @@
+public class ExcelDocument implements Document {
+    public void open() {
+        System.out.println("Excel Spreadsheet: Opening file");
+    }
+    
+    public void save() {
+        System.out.println("Excel Spreadsheet: Saving file");
+    }
+    
+    public void close() {
+        System.out.println("Excel Spreadsheet: Closing file");
+    }
+}

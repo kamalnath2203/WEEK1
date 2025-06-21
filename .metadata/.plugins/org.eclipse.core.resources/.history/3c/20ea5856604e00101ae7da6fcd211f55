@@ -1,0 +1,138 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Product {
+    private String productId;
+    private String productName;
+    private int quantity;
+    private double price;
+
+    public Product(String productId, String productName, int quantity, double price) {
+        this.productId = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    // Getters and Setters
+    public String getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
+}
+
+class InventoryManager {
+    private Map<String, Product> inventory;
+
+    public InventoryManager() {
+        // Using HashMap for O(1) average time complexity for operations
+        this.inventory = new HashMap<>();
+    }
+
+    // Add a new product to inventory
+    public void addProduct(Product product) {
+        if (inventory.containsKey(product.getProductId())) {
+            System.out.println("Product with ID " + product.getProductId() + " already exists.");
+        } else {
+            inventory.put(product.getProductId(), product);
+            System.out.println("Product added successfully.");
+        }
+    }
+
+    // Update product information
+    public void updateProduct(String productId, String newName, int newQuantity, double newPrice) {
+        Product product = inventory.get(productId);
+        if (product != null) {
+            product.setProductName(newName);
+            product.setQuantity(newQuantity);
+            product.setPrice(newPrice);
+            System.out.println("Product updated successfully.");
+        } else {
+            System.out.println("Product with ID " + productId + " not found.");
+        }
+    }
+
+    // Delete a product from inventory
+    public void deleteProduct(String productId) {
+        if (inventory.remove(productId) != null) {
+            System.out.println("Product deleted successfully.");
+        } else {
+            System.out.println("Product with ID " + productId + " not found.");
+        }
+    }
+
+    // Get product by ID
+    public Product getProduct(String productId) {
+        return inventory.get(productId);
+    }
+
+    // Display all products in inventory
+    public void displayInventory() {
+        if (inventory.isEmpty()) {
+            System.out.println("Inventory is empty.");
+        } else {
+            System.out.println("Current Inventory:");
+            for (Product product : inventory.values()) {
+                System.out.println(product);
+            }
+        }
+    }
+}
+
+public class InventoryManagement {
+    public static void main(String[] args) {
+        InventoryManager manager = new InventoryManager();
+
+        // Adding products
+        manager.addProduct(new Product("P001", "Laptop", 10, 999.99));
+        manager.addProduct(new Product("P002", "Smartphone", 25, 699.99));
+        manager.addProduct(new Product("P003", "Tablet", 15, 349.99));
+
+        // Display inventory
+        manager.displayInventory();
+
+        // Update a product
+        manager.updateProduct("P002", "Premium Smartphone", 20, 799.99);
+        System.out.println(manager.getProduct("P002"));
+
+        // Delete a product
+        manager.deleteProduct("P003");
+        manager.displayInventory();
+
+        // Try to get non-existent product
+        System.out.println("Search for P004: " + manager.getProduct("P004"));
+    }
+}
